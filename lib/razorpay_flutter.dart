@@ -1,7 +1,5 @@
-import 'package:flutter/services.dart';
 import 'package:eventify/eventify.dart';
-import 'package:package_info_plus/package_info_plus.dart';
-import 'dart:io' show Platform;
+import 'package:flutter/services.dart';
 import 'package:razorpay_flutter/upi_turbo.dart';
 
 class Razorpay {
@@ -34,12 +32,10 @@ class Razorpay {
     _setKeyID(key);
   }
 
-  Razorpay initUpiTurbo(){
-    upiTurbo = new UpiTurbo( _channel);
+  Razorpay initUpiTurbo() {
+    upiTurbo = new UpiTurbo(_channel);
     return this;
   }
-
-
 
   ///Set KeyId function
   void _setKeyID(String keyID) async {
@@ -59,10 +55,6 @@ class Razorpay {
         }
       });
       return;
-    }
-    if (Platform.isAndroid) {
-      PackageInfo packageInfo = await PackageInfo.fromPlatform();
-      _channel.invokeMethod('setPackageName', packageInfo.packageName);
     }
 
     var response = await _channel.invokeMethod('open', options);
@@ -166,7 +158,7 @@ class PaymentFailureResponse {
 
     if (responseBody is Map<dynamic, dynamic>) {
       return new PaymentFailureResponse(code, message, responseBody);
-    } else{
+    } else {
       Map<dynamic, dynamic> errorMap = new Map<dynamic, dynamic>();
       errorMap["reason"] = responseBody;
       return new PaymentFailureResponse(code, message, responseBody);
